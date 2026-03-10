@@ -135,7 +135,49 @@ Após um grande número de rodadas, calculamos a **frequência experimental da d
 Disponibilidade experimental =  
 número de rodadas bem sucedidas / número total de rodadas
 
-## Comparação entre Teoria e Simulação
+## Dados e Gráficos
+Para avaliar o comportamento da disponibilidade do sistema, foram gerados resultados utilizando duas abordagens:
+- **Cálculo analítico**, baseado na fórmula da distribuição binomial.
+- **Simulação estocástica**, utilizando geração de números aleatórios para simular o estado de cada servidor.
+
+Os experimentos foram realizados considerando diferentes valores de:
+- **n** → número de servidores no sistema
+- **k** → número mínimo de servidores necessários
+- **p** → probabilidade de cada servidor estar disponível
+
+Os resultados obtidos foram armazenados no arquivo:
+dados/resultados.csv
+
+Esse arquivo contém os valores analíticos e experimentais utilizados para gerar os gráficos:
+<p align="center">
+<img src="projeto-disponibilidade-distribuida/graficos/comparacao_n16_k1.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n16_k16.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n16_k8.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n2_k1.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n2_k2.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n4_k1.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n4_k2.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n4_k4.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n8_k1.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n8_k4.png" width="200"> <img src="projeto-disponibilidade-distribuida/graficos/comparacao_n8_k8.png" width="200">
+</p>
+
+### Gráficos Analíticos
+Além da comparação entre teoria e simulação, também foram gerados gráficos analíticos que mostram o comportamento da disponibilidade do sistema para diferentes valores de **n** e **k**.
+<p align="center">
+<img src="projeto-disponibilidade-distribuida/graficos/grafico_analitico_n2.png" width="300">
+<img src="projeto-disponibilidade-distribuida/graficos/grafico_analitico_n4.png" width="300">
+</p>
+
+<p align="center">
+<img src="projeto-disponibilidade-distribuida/graficos/grafico_analitico_n8.png" width="300">
+<img src="projeto-disponibilidade-distribuida/graficos/grafico_analitico_n16.png" width="300">
+</p>
+
+Esses gráficos mostram como a disponibilidade do sistema varia de acordo com a probabilidade **p** de cada servidor estar disponível.
+
+## Interpretação dos Resultados
+A análise dos gráficos permite observar alguns comportamentos importantes:
+
+- Quando **k = 1**, a disponibilidade cresce rapidamente conforme aumentamos o número de servidores.
+- Quando **k = n**, a disponibilidade depende diretamente de todos os servidores estarem disponíveis, tornando o sistema mais sensível a falhas.
+- Valores intermediários de **k** representam um equilíbrio entre consistência e disponibilidade.
+- Os resultados experimentais obtidos pela simulação convergem para os resultados analíticos quando o número de rodadas é grande.
+
+Esses resultados demonstram como a replicação de serviços pode aumentar a disponibilidade em sistemas distribuídos, dependendo da política de quorum adotada.
+
+# Comparação entre Teoria e Simulação
 
 Os resultados obtidos pela simulação são comparados com os resultados analíticos.
 
@@ -143,15 +185,3 @@ Observa-se que:
 
 - Quanto maior o número de rodadas da simulação, mais os resultados experimentais se aproximam dos resultados teóricos.
 - Pequenas diferenças podem ocorrer devido à natureza aleatória da simulação.
-
-## Conclusão
-
-Este estudo mostra como a replicação de serviços pode aumentar a disponibilidade de sistemas distribuídos.
-
-Observamos que:
-
-- Quando **k = 1**, a disponibilidade cresce rapidamente com o aumento de servidores.
-- Quando **k = n**, a disponibilidade diminui com o aumento de servidores, pois todos precisam funcionar simultaneamente.
-- Valores intermediários de **k** oferecem um equilíbrio entre consistência e disponibilidade.
-
-A combinação de análise matemática e simulação permite compreender melhor o comportamento de sistemas distribuídos replicados.
