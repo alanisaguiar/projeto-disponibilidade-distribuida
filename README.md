@@ -18,7 +18,7 @@ O estudo considera um sistema composto por **n servidores independentes**, onde 
 - Pandas
 - Matplotlib
 
-# Exercício 1.1 – Fórmula da disponibilidade
+# Exercício 1.1 - Fórmula da disponibilidade
 Considere um serviço replicado em **n servidores**.
 - Cada servidor possui probabilidade **p** de estar disponível.
 - O sistema funciona se pelo menos k servidores estiverem disponíveis.
@@ -40,6 +40,7 @@ X ~ Binomial(n, p)
 A probabilidade de exatamente i servidores estarem disponíveis é dada por:
 
 P(X = i) = C(n,i) · p^i · (1 − p)^(n − i)
+![Cálculo da probabilidade]()
 
 onde:
 
@@ -90,7 +91,7 @@ Logo, a probabilidade de pelo menos um servidor estar disponível é:
 
 A(n,1,p) = 1 − (1 − p)^n
 
-# Exercício 1.2 — Cálculo Analítico e Simulação
+# Exercício 1.2 - Cálculo Analítico e Simulação
 
 Após derivar as fórmulas analíticas, implementamos um programa em Python para:
 
