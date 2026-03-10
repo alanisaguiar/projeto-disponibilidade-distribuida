@@ -40,7 +40,8 @@ X ~ Binomial(n, p)
 A probabilidade de exatamente i servidores estarem disponíveis é dada por:
 
 P(X = i) = C(n,i) · p^i · (1 − p)^(n − i)
-![Cálculo da probabilidade]()
+
+<img src="images_readme/img2.jpeg" width="400">
 
 onde:
 
@@ -53,6 +54,8 @@ Como o sistema precisa de pelo menos k servidores disponíveis, devemos somar as
 Portanto, a disponibilidade do sistema é:
 
 A(n,k,p) = Σ (i = k até n) C(n,i) · p^i · (1 − p)^(n − i)
+
+<img src="images_readme/img1.jpeg" width="400">
 
 Essa fórmula representa a probabilidade de que k ou mais servidores estejam disponíveis simultaneamente.
 
