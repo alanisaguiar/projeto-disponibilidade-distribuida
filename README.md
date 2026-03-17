@@ -135,6 +135,45 @@ Após um grande número de rodadas, calculamos a **frequência experimental da d
 Disponibilidade experimental =  
 número de rodadas bem sucedidas / número total de rodadas
 
+## Dimensionamento de Servidores para SLA (Tabela dos Noves)
+
+Além de calcular a probabilidade de o sistema estar disponível, o modelo foi expandido para responder à quantos servidores (n) são necessários para garantir uma disponibilidade alvo (SLA):
+
+Geralmente, SLAs de alta disponibilidade são classificados pela "Tabela dos Noves" (ex: 90%, 99%, 99.9%, 99.99%). Para descobrir o número de máquinas necessárias, consideramos o caso base onde o sistema precisa de pelo menos um servidor disponível (**k = 1**). 
+
+Fórmula de disponibilidade para k = 1:
+
+A = 1 − (1 − p)^n
+
+Para encontrar o valor de n, isolamos a variável utilizando logaritmos:
+
+(1 − p)^n = 1 − A  
+n · log(1 − p) = log(1 − A)  
+n = ⌈ log(1 − A) / log(1 − p) ⌉
+
+Onde:
+- **A** é a disponibilidade alvo (ex: 0.999 para 99,9%).
+- **p** é a probabilidade individual de cada servidor estar disponível.
+- O resultado é passado por uma função teto (arredondado para cima), pois o número de servidores deve ser um número inteiro.
+
+## Disponibilidade da Latência
+
+Em sistemas distribuídos reais, não basta que o serviço responda; ele deve responder dentro de um limite de tempo aceitável (threshold). Quando utilizamos replicação, a latência de uma requisição depende diretamente da política de quórum adotada (**k**).
+
+Se enviamos uma requisição para **n** servidores e precisamos aguardar **k** respostas para considerar a operação bem-sucedida, a latência percebida pelo sistema será igual à latência do k-ésimo servidor mais rápido.
+
+### Simulação Estocástica com Tempo de Resposta
+
+Para calcular a probabilidade de o sistema estar não apenas online, mas também rápido o suficiente, o simulador estocástico foi adaptado com a seguinte lógica:
+
+1. Para cada um dos **n** servidores, verifica-se se ele está online gerando um número aleatório (probabilidade **p**).
+2. Se o servidor estiver online, simula-se o seu tempo de resposta utilizando uma Distribuição Normal (Gaussiana), baseada em um tempo médio de latência e um desvio padrão.
+3. Agrupam-se os tempos de resposta de todos os servidores disponíveis e eles são ordenados do mais rápido para o mais lento.
+4. Se o sistema obtiver pelo menos **k** respostas, seleciona-se o tempo da **k-ésima** resposta.
+5. O serviço só é considerado operacional (sucesso) se esse tempo final for menor ou igual ao tempo limite estipulado.
+
+Essa análise é fundamental para demonstrar o impacto da latência de cauda (*tail latency*). Observa-se que, conforme o valor de **k** se aproxima de **n**, a latência do sistema piora consideravelmente, pois a resposta final passa a depender sempre dos servidores mais lentos do cluster.
+
 ## Dados e Gráficos
 Para avaliar o comportamento da disponibilidade do sistema, foram gerados resultados utilizando duas abordagens:
 - **Cálculo analítico**, baseado na fórmula da distribuição binomial.
